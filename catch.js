@@ -1,10 +1,6 @@
 var mode = "catch";
 var swarm = [];
 var eyes = [];
-var screenY = 0;
-var screenX = 0;
-var screenWidth = 0;
-var screenHeight = 0;
 var scattered = false;
 var sayings = [
   "click me",
@@ -30,11 +26,7 @@ function start() {
   }
 
   //catch eyes
-  window.addEventListener("mousemove", (evt) => {
-    screenY = evt.pageY;
-    screenX = evt.pageX;
-    screenWidth = window.innerWidth;
-    screenHeight = window.innerHeight;
+  document.addEventListener("mousemove", (evt) => {
     if (mode == "catch") {
       const x = -(window.innerWidth / 2 - evt.pageX) / 60;
       const y = -(window.innerHeight / 2 - evt.pageY) / 60;
@@ -46,16 +38,12 @@ function start() {
 
   //swarm
   document.getElementById("print").addEventListener("click", (data) => {
-    if (mode == "swarm") {
-      var holdX = screenX;
-      var holdY = screenY;
-      if (!scattered) {
-        scattered = true;
-        scatter();
-        setTimeout(() => {
-          together(holdY, holdX);
-        }, 1200);
-      }
+    if (mode == "swarm" && !scattered) {
+      scattered = true;
+      scatter();
+      setTimeout(() => {
+        together(data.clientY, data.clientX);
+      }, 1200);
     } else if (mode == "catch" && data.target.id == "cont") {
       caught = true;
       document.getElementById("mouth").style.width = "5%";
@@ -74,9 +62,9 @@ function start() {
     }
   }
 
-  function together(holdY, holdX) {
-    var posX = Math.floor((holdX / screenWidth) * 100) - 3;
-    var posY = Math.floor((holdY / screenHeight) * 100) - 3;
+  function together(y, x) {
+    var posX = Math.floor((x / window.innerWidth) * 100) - 3;
+    var posY = Math.floor((y / window.innerHeight) * 100) - 3;
     for (var i = 0; i < swarm.length; i++) {
       swarm[i].style.top = posY + "%";
       swarm[i].style.left = posX + "%";
@@ -85,9 +73,9 @@ function start() {
   }
 
   //follow
-  window.addEventListener("mousemove", (evt) => {
+  document.getElementById("print").addEventListener("mousemove", (evt) => {
     if (mode == "follow") {
-      together(screenY, screenX);
+      together(evt.pageY, evt.pageX);
     }
   });
 
