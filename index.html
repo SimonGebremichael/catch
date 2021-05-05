@@ -7,12 +7,17 @@
     <script src="catch.js" defer></script>
     <title>Catch Me</title>
 </head>
-<body onload="start()">
+<body onload="start()"  oncontextmenu="return false;">
     <select id="mode">
         <option value="catch" selected>CATCH ME</option>
-        <option value="swarm">SWARM</option>
-        <option value="follow">FOLLOW</option>
+        <option value="move">MOVE</option>
+        <option value="circular">CIRCULAR</option>
     </select>
+
+    <div class="sun">
+        <div class="dot"></div>
+       </div>
+       
     <p id="print"></p>
     <style>
         #print {
@@ -21,23 +26,27 @@
         }
         select {
             padding: 10px;
+            width:15vw;
+            border: none;
+            outline: none;
         }
         option {
-            font-size: 20px;
+            font-size: 17px;
+            padding: 5px;
         }
         body {
-            background-color: black;
+            background-color: lightgreen;
+            overflow: hidden;
         }
-        #cont {
-            width: 7%;
-            height: 13%;
+        #catch_cont {
+            width: 6%;
+            height: 20%;
             position: absolute;
             text-align: center;
         }
-        #catchMe{
-            width: 70px;
-            height: 70px;
-            margin-left: 20%;
+        #catch{
+            width: 100px;
+            height: 100px;
             margin-top: 10%;
             display: grid;
             grid-template-columns: 50% 50%;
@@ -68,9 +77,26 @@
             border-radius: 15px;
             padding: 6px;
             width: 40%;
-            margin-left: 27%;
+            margin-left: 18%;
             margin-top: 10px;
         }
+
+        #shell{
+            position:absolute;
+            width:100px;
+            height:100px;
+            object-fit: contain;
+            transition: "all 1s ease-in-out";
+        }
+        #shell_cont{
+            position:absolute;
+            top: 40%;
+            left: 40%;
+        }
+
+        @-webkit-keyframes orbit { 
+        from { -webkit-transform:rotate(360deg) } 
+        to { -webkit-transform:rotate(0deg) } }
     </style>
 </body>
 </html>
